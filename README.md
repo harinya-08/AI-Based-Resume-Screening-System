@@ -1,4 +1,4 @@
-                                                                        AI-Based Resume Screening System
+AI-Based Resume Screening System
 
 This project is an AI-powered application designed to streamline the recruitment process by automatically screening and ranking resumes based on job descriptions. The system leverages natural language processing (NLP) to analyze candidate information, making the hiring process more efficient and objective.
 
