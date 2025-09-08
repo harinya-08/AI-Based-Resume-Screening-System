@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Scanner - Upload Your Resume</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="resumescan.css">
+</head>
+<body class="bg-white">
+  <nav class="navbar navbar-light bg-light shadow-sm">
+  <div class="container-fluid d-flex justify-content-between align-items-center">
+    <div class="navbar-brand d-flex flex-column align-items-start">
+      <h1 class="fs-4 mb-2">AI Based Resume Screening System</h1>
+      <img src="logo.jpg" alt="Trihire" style="width:150px; height:50px;" onerror="this.style.display='none'">
+    </div>
+    <div>
+      <button class="btn btn-outline-primary me-2" onclick="window.location.reload()">New Scan</button>
+      <button class="btn btn-outline-danger" onclick="window.location.href='login.html'">Log Out</button>
+    </div>
+  </div>
+</nav>
+    <div class="container my-5">
+        <div id="uploadSection">
+            <div class="text-center mb-5">
+                <h1 class="display-4 fw-bold mb-3 upload-title">Upload Your Resume</h1>
+                <p class="lead text-muted">Get instant ATS score and personalized job recommendations</p>
+            </div>
+
+            <div class="upload-box mx-auto">
+                <div class="upload-area text-center p-5" id="uploadArea">
+                    <i class="fas fa-cloud-upload-alt fa-5x text-primary mb-4"></i>
+                    <h4 class="mb-3">Drag & Drop or Click to Upload</h4>
+                    <p class="text-muted mb-4">Supported formats: PDF, DOCX (Max size: 10MB)</p>
+                    
+                    <form id="resumeForm">
+                        <input type="file" id="resumeInput" name="resume" accept=".pdf,.docx" class="d-none">
+                        <label for="resumeInput" class="btn btn-primary btn-lg">
+                            <i class="fas fa-upload me-2"></i> Choose File
+                        </label>
+                        
+                        <div class="mt-4">
+                            <label class="form-label fw-bold">Select Target Role:</label>
+                            <select id="roleSelect" name="role" class="form-select form-select-lg">
+                                <option value="Software Engineer">Software Engineer</option>
+                                <option value="Data Scientist">Data Scientist</option>
+                                <option value="Product Manager">Product Manager</option>
+                                <option value="Full Stack developer">Full Stack developer</option>
+                                <option value="Mobile App Developer">Mobile App Developer</option>
+                                <option value="UI/UX Engineer">UI/UX Engineer</option>
+                                <option value="Cloud Engineer">Cloud Engineer</option>
+                            </select>
+                        </div>
+                        
+                        <button type="submit" id="scanBtn" class="btn btn-success btn-lg mt-4 d-none">
+                            <i class="fas fa-search me-2"></i> Scan Your Resume
+                        </button>
+                    </form>
+                </div>
+                
+                <div id="fileInfo" class="mt-3 d-none">
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle me-2"></i>
+                        <span id="fileName"></span> selected successfully
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="loadingSection" class="text-center d-none">
+            <div class="loading-container">
+                <div class="spinner-border text-primary mb-4" style="width: 4rem; height: 4rem;" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <h3 class="text-primary mb-4">Analyzing Your Resume...</h3>
+                <p class="text-muted">Please wait while we process your resume and generate insights</p>
+                
+                <div class="progress mt-4" style="height: 10px;">
+                    <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                         role="progressbar" style="width: 0%" id="progressBar"></div>
+                </div>
+                
+                <div class="mt-4">
+                    <div class="row text-center">
+                        <div class="col-md-3">
+                            <i class="fas fa-file-alt text-success mb-2"></i>
+                            <small class="d-block">Extracting Text</small>
+                        </div>
+                        <div class="col-md-3">
+                            <i class="fas fa-brain text-primary mb-2"></i>
+                            <small class="d-block">Analyzing Skills</small>
+                        </div>
+                        <div class="col-md-3">
+                            <i class="fas fa-chart-line text-warning mb-2"></i>
+                            <small class="d-block">Calculating ATS Score</small>
+                        </div>
+                        <div class="col-md-3">
+                            <i class="fas fa-briefcase text-info mb-2"></i>
+                            <small class="d-block">Finding Jobs</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="resultsSection" class="d-none">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold text-primary mb-3">Resume Analysis Complete</h2>
+                <p class="lead text-muted">Here's your comprehensive resume analysis and recommendations</p>
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-6 mx-auto">
+                    <div class="card border-0 shadow-lg text-center" id="atsScoreCard">
+                        <div class="card-body p-5">
+                            <h3 class="card-title mb-4">ATS Compatibility Score</h3>
+                            <div class="score-circle mb-4">
+                                <span id="atsScore" class="display-1 fw-bold">--</span>
+                                <span class="fs-2 text-muted">/100</span>
+                            </div>
+                            <p id="scoreMessage" class="card-text lead"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-3 mb-3">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-clock text-primary fs-1 mb-3"></i>
+                            <h5>Experience</h5>
+                            <p class="fs-4 fw-bold text-primary" id="experience">--</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-graduation-cap text-success fs-1 mb-3"></i>
+                            <h5>Education</h5>
+                            <p class="fs-4 fw-bold text-success" id="education">--</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-tools text-warning fs-1 mb-3"></i>
+                            <h5>Skills Found</h5>
+                            <p class="fs-4 fw-bold text-warning" id="skillsCount">--</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <div class="card border-0 shadow h-100">
+                        <div class="card-body text-center">
+                            <i class="fas fa-user-tie text-info fs-1 mb-3"></i>
+                            <h5>Level</h5>
+                            <p class="fs-4 fw-bold text-info" id="experienceLevel">--</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow">
+                        <div class="card-header bg-primary text-white">
+                            <h3 class="mb-0"><i class="fas fa-code me-2"></i>Skills Analysis</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="skillsList" class="d-flex flex-wrap gap-2">
+                            </div>
+                            <div id="noSkillsMessage" class="text-center text-muted py-4 d-none">
+                                <i class="fas fa-exclamation-triangle fs-1 mb-3"></i>
+                                <p>No relevant skills detected for the selected role.</p>
+                                <small>Consider adding more technical skills to your resume.</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card border-0 shadow">
+                        <div class="card-header bg-success text-white">
+                            <h3 class="mb-0"><i class="fas fa-briefcase me-2"></i>Job Recommendations</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="jobRecommendations">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="btn btn-primary btn-lg me-3" onclick="window.location.reload()">
+                    <i class="fas fa-redo me-2"></i>Scan Another Resume
+                </button>
+                <button class="btn btn-outline-secondary btn-lg" onclick="window.print()">
+                    <i class="fas fa-print me-2"></i>Print Report
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="resumescan.js"></script>
+</body>
+</html>
