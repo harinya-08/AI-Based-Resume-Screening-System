@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Post a Job</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="post-job.css" />
+</head>
+<body class="bg-light">
+  <div class="container mt-5">
+    <h1 class="mb-4 fw-bold text-center">Post a New Job</h1>
+    <form id="jobForm" class="card p-4 shadow-sm bg-white">
+      <div class="mb-3">
+        <label for="jobTitle" class="form-label fw-bold">Job Title</label>
+        <input type="text" class="form-control" id="jobTitle" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="companyName" class="form-label fw-bold">Company Name</label>
+        <input type="text" class="form-control" id="companyName" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="jobType" class="form-label fw-bold">Job Type</label>
+        <select class="form-select" id="jobType" required>
+          <option value="">Select Job Type</option>
+          <option>Full-time</option>
+          <option>Part-time</option>
+          <option>Internship</option>
+          <option>Contract</option>
+          <option>Freelance</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="experience" class="form-label fw-bold">Experience Required</label>
+        <select class="form-select" id="experience" required>
+          <option value="">Select Experience</option>
+          <option>No experience</option>
+          <option>0-1 years</option>
+          <option>1-3 years</option>
+          <option>3-5 years</option>
+          <option>5+ years</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="skills" class="form-label fw-bold">Required Skills</label>
+        <select class="form-select" id="skills" required>
+          <option value="">Select a Skill</option>
+          <option>Java</option>
+          <option>Python</option>
+          <option>JavaScript</option>
+          <option>SQL</option>
+          <option>C++</option>
+          <option>React</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn custom-btn w-100">Post Job</button>
+    </form>
+  </div>
+
+  <script src="post-job.js"></script>
+</body>
+</html>
